@@ -3,23 +3,34 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     GameManager gameManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    MeshRenderer meshRenderer;
+
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
+        meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             gameManager.currentPickups += 1;
-            Destroy(this.gameObject);
+
+            if (meshRenderer != null)
+            {
+                meshRenderer.enabled = false;
+            }
+
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+            {
+                col.enabled = false;
+            }
         }
     }
 }
